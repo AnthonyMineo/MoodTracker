@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.denma.moodtracker.R;
 
-public class MyPageAdapter extends PagerAdapter {
+public class MyPagerAdapter extends PagerAdapter {
 
     public int getCount() {
         return 5;

@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/acitvity_main_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
     <com.denma.moodtracker.Controller.MyViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/activity_main_panel_pager"/>
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/activity_main_history_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_history_black" />
+
+    <ImageView
+        android:id="@+id/activity_main_note_add_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_note_add_black" />
+</FrameLayout>
