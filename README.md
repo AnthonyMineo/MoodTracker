@@ -1,0 +1,1 @@
+An Android mood tracker app for school project
