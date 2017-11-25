@@ -83,8 +83,10 @@ public class DailyMoodDAO {
         return selectedMood;
     }
 
+
+    //Return example : id = 8 / 9 / 10 / 11 / 12 / 13 / 14 (14 is the last in database)
     public Cursor getLast7DailyMood(){
-        return db.rawQuery( "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_ID_MOOD +  " DESC LIMIT 7", null);
+        return db.rawQuery( "SELECT * FROM ( SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_ID_MOOD +  " DESC LIMIT 7 )" + " ORDER BY " + KEY_ID_MOOD + " ASC", null);
     }
 
     public Cursor getAllDailyMood(){
