@@ -121,15 +121,15 @@ public class HistoryActivity extends AppCompatActivity {
         //get last 7 DailyMood (maximum, because you can get just 5 is there is no more in db)
         Cursor cursor = dM.getLast7DailyMood();
         if (cursor.moveToFirst()) {
-            DailyMood tempDailyMood = new DailyMood(0, "", "");
             do {
+                DailyMood tempDailyMood = new DailyMood(0, "", "");
                 tempDailyMood.setId_dailyMood(cursor.getInt(cursor.getColumnIndex(KEY_ID_MOOD)));
                 tempDailyMood.setDailyMood(cursor.getString(cursor.getColumnIndex(KEY_MOOD_STAT)));
                 tempDailyMood.setDailyCommentary(cursor.getString(cursor.getColumnIndex(KEY_MOOD_COMMENTARY)));
                 mWeekMoodList.add(tempDailyMood);
             }while (cursor.moveToNext());
         }
-
+        cursor.close();
         //modif Xml properties to suit your DailyMood data
         setXmlFromData(mWeekMoodList);
     }
@@ -186,26 +186,26 @@ public class HistoryActivity extends AppCompatActivity {
     private void setWidthForMoodLayout(DailyMood currentMood, RelativeLayout currentLayout){
         Display display = getWindowManager().getDefaultDisplay();
         int screenWidth = display.getWidth();
-        int happySize = (int) (screenWidth * 0.80);
-        int normalSize = (int) (screenWidth * 0.60);
-        int disappointedSize = (int) (screenWidth * 0.40);
-        int sadSize = (int) (screenWidth * 0.20);
+        int happySize = (int) (screenWidth * 0.85);
+        int normalSize = (int) (screenWidth * 0.70);
+        int disappointedSize = (int) (screenWidth * 0.55);
+        int sadSize = (int) (screenWidth * 0.30);
 
-        if(currentMood.getDailyMood() == ":D")
+        if(currentMood.getDailyMood().equals(":D"))
         {
-            currentLayout.setLayoutParams(new RelativeLayout.LayoutParams(screenWidth, 1));
+            currentLayout.getLayoutParams().width = screenWidth;
             currentLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
-        } else if (currentMood.getDailyMood() == ":)"){
-            currentLayout.setLayoutParams(new RelativeLayout.LayoutParams(happySize, 1));
+        } else if (currentMood.getDailyMood().equals(":)")){
+            currentLayout.getLayoutParams().width = happySize;
             currentLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
-        } else if (currentMood.getDailyMood() == ":|"){
-            currentLayout.setLayoutParams(new RelativeLayout.LayoutParams(normalSize, 1));
+        } else if (currentMood.getDailyMood().equals( ":|")){
+            currentLayout.getLayoutParams().width = normalSize;
             currentLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
-        } else if (currentMood.getDailyMood() == ":/"){
-            currentLayout.setLayoutParams(new RelativeLayout.LayoutParams(disappointedSize, 1));
+        } else if (currentMood.getDailyMood().equals(":/")){
+            currentLayout.getLayoutParams().width = disappointedSize;
             currentLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
-        } else if (currentMood.getDailyMood() == ":("){
-            currentLayout.setLayoutParams(new RelativeLayout.LayoutParams(sadSize, 1));
+        } else if (currentMood.getDailyMood().equals(":(")){
+            currentLayout.getLayoutParams().width = sadSize;
             currentLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
         }
     }

@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_7_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -64,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_6_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -95,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_5_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -126,6 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_4_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -157,6 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_3_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -188,6 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_2_text"
             android:src="@mipmap/ic_comment_black_48px" />
 
@@ -219,6 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
             android:layout_below="@id/activity_history_day_1_text"
             android:src="@mipmap/ic_comment_black_48px" />
 

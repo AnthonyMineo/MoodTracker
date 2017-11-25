@@ -1,5 +1,6 @@
 package com.denma.moodtracker.Controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.denma.moodtracker.Model.DailyMood;
+import com.denma.moodtracker.Model.DailyMoodDAO;
 import com.denma.moodtracker.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,10 +59,37 @@ public class MainActivity extends AppCompatActivity {
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
 
+        //SQLite Bdd test
+        DailyMoodDAO testDB = new DailyMoodDAO(this);
+        testDB.open();
+
+
+        testDB.addDailyMood(new DailyMood(0, ":D", "Enfin ca fonctionne !"));
+        testDB.addDailyMood(new DailyMood(0, ":|", "J'ai encore mal aux dents"));
+        testDB.addDailyMood(new DailyMood(0, ":)", "mais j'ai bien avancé"));
+
+        /*
+        testDB.supDailyMood(new DailyMood(0, "", ""));
+        testDB.supDailyMood(new DailyMood(1, "", ""));
+        testDB.supDailyMood(new DailyMood(2, "", ""));
+        testDB.supDailyMood(new DailyMood(3, "", ""));
+        testDB.supDailyMood(new DailyMood(4, "", ""));
+        testDB.supDailyMood(new DailyMood(5, "", ""));
+        testDB.supDailyMood(new DailyMood(6, "", ""));*/
+
+
         mHistoryBlack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent historyActivityIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(historyActivityIntent);
+            }
+        });
+
+        mNoteAddBlack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Alertdialog with edittext to do
             }
         });
 
