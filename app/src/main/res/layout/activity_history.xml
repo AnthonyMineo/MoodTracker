@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.denma.moodtracker.Controller.HistoryActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_7_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_7_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Il y a une semaine" />
+
+        <TextView
+            android:id="@+id/activity_history_day_7_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_7_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_7_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_7_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_6_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_6_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Il y a 6 jours" />
+
+        <TextView
+            android:id="@+id/activity_history_day_6_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_6_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_6_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_6_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_5_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_5_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Il y a 5 jours" />
+
+        <TextView
+            android:id="@+id/activity_history_day_5_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_5_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_5_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_5_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_4_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_4_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Il y a 4 jours" />
+
+        <TextView
+            android:id="@+id/activity_history_day_4_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_4_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_4_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_4_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_3_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Il y a 3 jours" />
+
+        <TextView
+            android:id="@+id/activity_history_day_3_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_3_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_3_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_3_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_2_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Avant-hier" />
+
+        <TextView
+            android:id="@+id/activity_history_day_2_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_2_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_2_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_2_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_history_day_1_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/activity_history_day_1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Hier" />
+
+        <TextView
+            android:id="@+id/activity_history_day_1_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_history_day_1_text"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/activity_history_day_1_commentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/activity_history_day_1_text"
+            android:src="@mipmap/ic_comment_black_48px" />
+
+    </RelativeLayout>
+
+</LinearLayout>

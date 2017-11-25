@@ -3,6 +3,7 @@ package com.denma.moodtracker.Controller;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         params2.leftMargin = noteLeftMargin;
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
+
+        mHistoryBlack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
 
     }
 }
