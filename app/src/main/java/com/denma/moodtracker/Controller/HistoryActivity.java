@@ -46,9 +46,6 @@ public class HistoryActivity extends AppCompatActivity {
     private TextView mDay1Mood;
     private ImageView mDay1Commentary;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
