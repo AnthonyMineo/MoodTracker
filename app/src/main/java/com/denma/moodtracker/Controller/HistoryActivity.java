@@ -176,7 +176,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setXmlFromData(List<DailyMood> WeekMoodList){
         for(int i = 0; i < WeekMoodList.size(); i ++){
             mMoodTable[i].setText(WeekMoodList.get(i).getDailyMood());
-            if(WeekMoodList.get(i).getDailyCommentary() != "")
+            if(!(WeekMoodList.get(i).getDailyCommentary().equals("")))
                 mCommentaryTable[i].setVisibility(View.VISIBLE);
             setWidthForMoodLayout(WeekMoodList.get(i), mLayoutTable[i]);
         }
