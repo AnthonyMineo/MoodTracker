@@ -1,8 +1,12 @@
 package com.denma.moodtracker.Controller;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,11 +21,16 @@ import com.denma.moodtracker.Model.DailyMood;
 import com.denma.moodtracker.Model.DailyMoodDAO;
 import com.denma.moodtracker.R;
 
+import java.util.Calendar;
+
+import static android.app.AlarmManager.RTC;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mHistoryBlack;
     private ImageView mNoteAddBlack;
     private FrameLayout mRootLayout;
+    private MyViewPager myPager;
 
     private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
     private SharedPreferences mPreferences;
@@ -32,14 +41,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MyPagerAdapter adapter = new MyPagerAdapter();
-        MyViewPager myPager = (MyViewPager) findViewById(R.id.activity_main_panel_pager);
+        myPager = (MyViewPager) findViewById(R.id.activity_main_panel_pager);
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(3);
+
+        mPreferences = getPreferences(MODE_PRIVATE);
 
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
         mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
         mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
-        mPreferences = getPreferences(MODE_PRIVATE);
+
+
+        myPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                scheduleAlarm();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //define screen dimension (width and height)
         Display display = getWindowManager().getDefaultDisplay();
@@ -68,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
 
+
         //SQLite Bdd test
-        DailyMoodDAO testDB = new DailyMoodDAO(this);
-        testDB.open();
+        //DailyMoodDAO testDB = new DailyMoodDAO(this);
+        //testDB.open();
 
 
         /*testDB.addDailyMood(new DailyMood(0, ":(", "c'est à l'envers"));
@@ -79,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
         testDB.addDailyMood(new DailyMood(0, ":(", "J'ai pas encore vue l'épisode de RWBY !"));
         testDB.addDailyMood(new DailyMood(0, ":)", "mais j'ai bien avancé"));
         testDB.addDailyMood(new DailyMood(0, ":|", ""));
-        testDB.addDailyMood(new DailyMood(0, ":D", "Enfin ca fonctionne !"));*/
+        testDB.addDailyMood(new DailyMood(0, ":D", "Enfin ca fonctionne !"));
 
-        /*
+
         testDB.supDailyMood(new DailyMood(0, "", ""));
         testDB.supDailyMood(new DailyMood(1, "", ""));
         testDB.supDailyMood(new DailyMood(2, "", ""));
@@ -90,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         testDB.supDailyMood(new DailyMood(5, "", ""));
         testDB.supDailyMood(new DailyMood(6, "", ""));
         testDB.supDailyMood(new DailyMood(7, "", ""));*/
-
 
         mHistoryBlack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Add the commentary to shared prefs
                         mPreferences.edit().putString(PREF_COMMENTARY, comInput.getText().toString()).apply();
+                        scheduleAlarm();
                         System.out.println(comInput.getText().toString());
                     }
 
@@ -137,6 +166,30 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void scheduleAlarm(){
+
+        System.out.println("scheduleAlarm");
+
+        // Construct an intent that will execute MyAlarmReceiver
+        Intent myIntent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
+        myIntent.putExtra("DailyMood", myPager.getCurrentItem());
+        myIntent.putExtra("DailyCommentary", mPreferences.getString(PREF_COMMENTARY, ""));
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(MainActivity.this, MyAlarmReceiver.REQUEST_CODE, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //AlarmTest
+        Calendar midnight = Calendar.getInstance();
+        midnight.set(Calendar.HOUR_OF_DAY, 00);
+        midnight.set(Calendar.MINUTE, 00);
+        midnight.set(Calendar.SECOND, 00);
+
+        //Create AlarmManager Object
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        //init Alarm at midnight
+        alarm.set(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), pIntent);
     }
 }

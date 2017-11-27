@@ -16,7 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.HistoryActivity"></activity>
+        <activity android:name=".Controller.HistoryActivity" />
+
+        <service
+            android:name=".Controller.AutoSaveService"
+            android:exported="false" />
+        <receiver
+            android:name=".Controller.MyAlarmReceiver"
+            android:process=":remote" />
     </application>
 
 </manifest>
