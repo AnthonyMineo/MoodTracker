@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         int iconeHeight = (int) (screenHeight * 0.10);
 
         //define icone placement relative to the screen
-        int historyLeftMargin = (int) (screenWidth * 0.85);
-        int historyTopMargin = (int) (screenHeight * 0.85);
-        int noteLeftMargin = (int) (screenWidth * 0.05);
-        int noteTopMargin = (int) (screenHeight * 0.85);
+        int historyLeftMargin = (int) (screenWidth * 0.80);
+        int historyTopMargin = (int) (screenHeight * 0.80);
+        int noteLeftMargin = (int) (screenWidth * 0.10);
+        int noteTopMargin = (int) (screenHeight * 0.80);
 
         //set history's icone placement absolute
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         DailyMoodDAO testDB = new DailyMoodDAO(this);
         testDB.open();
 
-        /*
-        testDB.addDailyMood(new DailyMood(0, ":D", "C'est trop ENOOOORRRMMEEEE !"));
+
+        /*testDB.addDailyMood(new DailyMood(0, ":(", "c'est à l'envers"));
         testDB.addDailyMood(new DailyMood(0, ":|", "J'ai encore mal aux dents"));
         testDB.addDailyMood(new DailyMood(0, ":/", ""));
         testDB.addDailyMood(new DailyMood(0, ":(", "J'ai pas encore vue l'épisode de RWBY !"));
