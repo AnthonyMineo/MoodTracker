@@ -2,6 +2,7 @@ package com.denma.moodtracker.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mNoteAddBlack;
     private FrameLayout mRootLayout;
 
+    private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
+    private SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
         mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
         mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
+        mPreferences = getPreferences(MODE_PRIVATE);
 
         //define screen dimension (width and height)
         Display display = getWindowManager().getDefaultDisplay();
@@ -106,10 +111,16 @@ public class MainActivity extends AppCompatActivity {
                 comInput.setLayoutParams(layoutParams);
                 alertDialog.setView(comInput);
 
+                //If a daily commentary is already set, add it to the EditText
+                if(mPreferences.contains(PREF_COMMENTARY))
+                    comInput.setText(mPreferences.getString(PREF_COMMENTARY, ""));
+
                 alertDialog.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Add the commentary to shared prefs
+                        mPreferences.edit().putString(PREF_COMMENTARY, comInput.getText().toString()).apply();
+                        System.out.println(comInput.getText().toString());
                     }
 
                 });
