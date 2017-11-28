@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private MyViewPager myPager;
 
     private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
-    private static SharedPreferences mPreferences;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(3);
 
-        mPreferences = getPreferences(MODE_PRIVATE);
-
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
         mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
         mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         myPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -92,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
 
-        System.out.println(this.toString());
         //SQLite Bdd test
         //DailyMoodDAO testDB = new DailyMoodDAO(this);
         //testDB.open();
@@ -164,10 +164,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static SharedPreferences getmPreferences() {
-        return mPreferences;
-    }
-
     private void scheduleAlarm(){
 
         System.out.println("scheduleAlarm");
@@ -182,9 +178,9 @@ public class MainActivity extends AppCompatActivity {
 
         //AlarmTest
         Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 23);
-        midnight.set(Calendar.MINUTE, 59);
-        midnight.set(Calendar.SECOND, 59);
+        midnight.set(Calendar.HOUR_OF_DAY, 16);
+        midnight.set(Calendar.MINUTE, 28);
+        midnight.set(Calendar.SECOND, 01);
 
         //Create AlarmManager Object
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
