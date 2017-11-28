@@ -17,13 +17,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.denma.moodtracker.Model.DailyMood;
-import com.denma.moodtracker.Model.DailyMoodDAO;
 import com.denma.moodtracker.R;
-
 import java.util.Calendar;
 
-import static android.app.AlarmManager.RTC;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private MyViewPager myPager;
 
     private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
-    private SharedPreferences mPreferences;
+    private static SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
 
-
+        System.out.println(this.toString());
         //SQLite Bdd test
         //DailyMoodDAO testDB = new DailyMoodDAO(this);
         //testDB.open();
@@ -168,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static SharedPreferences getmPreferences() {
+        return mPreferences;
+    }
+
     private void scheduleAlarm(){
 
         System.out.println("scheduleAlarm");
@@ -182,9 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
         //AlarmTest
         Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 00);
-        midnight.set(Calendar.MINUTE, 00);
-        midnight.set(Calendar.SECOND, 00);
+        midnight.set(Calendar.HOUR_OF_DAY, 23);
+        midnight.set(Calendar.MINUTE, 59);
+        midnight.set(Calendar.SECOND, 59);
 
         //Create AlarmManager Object
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);

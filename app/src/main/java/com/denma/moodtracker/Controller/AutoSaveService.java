@@ -2,17 +2,13 @@ package com.denma.moodtracker.Controller;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
 import com.denma.moodtracker.Model.DailyMood;
 import com.denma.moodtracker.Model.DailyMoodDAO;
-import com.denma.moodtracker.R;
 
 import java.util.Calendar;
 
@@ -28,8 +24,7 @@ public class AutoSaveService extends IntentService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        System.out.print("onStart");
-        System.out.println("AutoSaveOnHandle");
+        System.out.println("onStart");
 
         int mood = intent.getIntExtra("DailyMood", 3);
         String commentary = intent.getStringExtra("DailyCommentary");
@@ -53,6 +48,9 @@ public class AutoSaveService extends IntentService {
         }
         testDB.close();
 
+        //Remove Prefs for new commentary
+        MainActivity.getmPreferences().edit().clear().apply();
+
         return START_STICKY;
     }
 
@@ -64,9 +62,9 @@ public class AutoSaveService extends IntentService {
 
         //AlarmTest
         Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 00);
-        midnight.set(Calendar.MINUTE, 00);
-        midnight.set(Calendar.SECOND, 00);
+        midnight.set(Calendar.HOUR_OF_DAY, 23);
+        midnight.set(Calendar.MINUTE, 59);
+        midnight.set(Calendar.SECOND, 59);
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         //init Alarm at midnight
