@@ -176,16 +176,23 @@ public class MainActivity extends AppCompatActivity {
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(MainActivity.this, MyAlarmReceiver.REQUEST_CODE, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //AlarmTest
+        long alarmUp = 0;
         Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 16);
-        midnight.set(Calendar.MINUTE, 28);
-        midnight.set(Calendar.SECOND, 01);
+        Calendar now = Calendar.getInstance();
+        midnight.set(Calendar.HOUR_OF_DAY, 23);
+        midnight.set(Calendar.MINUTE, 59);
+        midnight.set(Calendar.SECOND, 59);
+
+        if(midnight.getTimeInMillis() <= now.getTimeInMillis())
+            alarmUp = midnight.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
+        else
+            alarmUp = midnight.getTimeInMillis();
 
         //Create AlarmManager Object
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
         //init Alarm at midnight
-        alarm.set(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), pIntent);
+        alarm.set(AlarmManager.RTC_WAKEUP, alarmUp, pIntent);
+
+
     }
 }

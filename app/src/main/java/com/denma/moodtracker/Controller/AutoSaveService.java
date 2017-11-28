@@ -65,19 +65,27 @@ public class AutoSaveService extends IntentService {
 
     public void onTaskRemoved(Intent rootIntent){
         System.out.print("taskRemoved");
+
         Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
         restartServiceTask.setPackage(getPackageName());
-        PendingIntent restartPendingIntent = PendingIntent.getService(getApplicationContext(), MyAlarmReceiver.REQUEST_CODE,restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent restartPendingIntent = PendingIntent.getService(getApplicationContext(), MyAlarmReceiver.REQUEST_CODE, restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
 
         //AlarmTest
+        long alarmUp = 0;
         Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 16);
-        midnight.set(Calendar.MINUTE, 28);
-        midnight.set(Calendar.SECOND, 01);
+        Calendar now = Calendar.getInstance();
+        midnight.set(Calendar.HOUR_OF_DAY, 23);
+        midnight.set(Calendar.MINUTE, 59);
+        midnight.set(Calendar.SECOND, 59);
+
+        if(midnight.getTimeInMillis() <= now.getTimeInMillis())
+            alarmUp = midnight.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
+        else
+            alarmUp = midnight.getTimeInMillis();
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         //init Alarm at midnight
-        alarm.set(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), restartPendingIntent);
+        alarm.set(AlarmManager.RTC_WAKEUP, alarmUp, restartPendingIntent);
 
         super.onTaskRemoved(rootIntent);
     }
