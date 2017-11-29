@@ -21,9 +21,12 @@
         <service
             android:name=".Controller.AutoSaveService"
             android:exported="false" />
+
         <receiver
             android:name=".Controller.MyAlarmReceiver"
             android:process=":remote" />
+
+        <activity android:name=".Controller.PieHistoryActivity"></activity>
     </application>
 
 </manifest>

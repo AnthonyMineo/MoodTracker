@@ -37,22 +37,22 @@ public class AutoSaveService extends IntentService {
         System.out.println("com : " + commentary);
 
         //SQLite Bdd test
-        DailyMoodDAO testDB = new DailyMoodDAO(this);
-        testDB.open();
+        DailyMoodDAO dM = new DailyMoodDAO(this);
+        dM.open();
 
         if(mood == 4){
-            testDB.addDailyMood(new DailyMood(0, ":D", commentary));
+            dM.addDailyMood(new DailyMood(0, ":D", commentary));
         }else if(mood == 3){
-            testDB.addDailyMood(new DailyMood(0, ":)", commentary));
+            dM.addDailyMood(new DailyMood(0, ":)", commentary));
         }else if(mood == 2){
-            testDB.addDailyMood(new DailyMood(0, ":|", commentary));
+            dM.addDailyMood(new DailyMood(0, ":|", commentary));
         }else if(mood == 1){
-            testDB.addDailyMood(new DailyMood(0, ":/", commentary));
+            dM.addDailyMood(new DailyMood(0, ":/", commentary));
         }else if(mood == 0){
-            testDB.addDailyMood(new DailyMood(0, ":(", commentary));
+            dM.addDailyMood(new DailyMood(0, ":(", commentary));
         }
 
-        testDB.close();
+        dM.close();
 
         //Remove Prefs for new commentary
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

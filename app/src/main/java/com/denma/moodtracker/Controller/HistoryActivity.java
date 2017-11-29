@@ -1,5 +1,6 @@
 package com.denma.moodtracker.Controller;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +56,6 @@ public class HistoryActivity extends AppCompatActivity {
     private TextView[] mMoodTable;
     private ImageView[] mCommentaryTable;
     private RelativeLayout[] mLayoutTable;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +130,8 @@ public class HistoryActivity extends AppCompatActivity {
             }while (cursor.moveToNext());
         }
         cursor.close();
+        dM.close();
+
         //modif Xml properties to suit your DailyMood data
         setXmlFromData(mWeekMoodList);
     }

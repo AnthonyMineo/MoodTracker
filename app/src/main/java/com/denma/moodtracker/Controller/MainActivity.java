@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView mHistoryBlack;
     private ImageView mNoteAddBlack;
+    private ImageView mPieChart;
+
     private FrameLayout mRootLayout;
     private MyViewPager myPager;
 
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
         mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
         mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
+        mPieChart = (ImageView) findViewById(R.id.activity_history_pie_chart);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         //define icone placement relative to the screen
         int historyLeftMargin = (int) (screenWidth * 0.80);
         int historyTopMargin = (int) (screenHeight * 0.80);
+        int pieHistoryLeftMargin = (int) (screenWidth * 0.45);
+        int pieHistoryTopMargin = (int) (screenHeight * 0.80);
         int noteLeftMargin = (int) (screenWidth * 0.10);
         int noteTopMargin = (int) (screenHeight * 0.80);
 
@@ -100,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
         params2.leftMargin = noteLeftMargin;
         params2.topMargin  = noteTopMargin;
         mRootLayout.updateViewLayout(mNoteAddBlack, params2);
+
+        FrameLayout.LayoutParams params3 = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
+        params3.leftMargin = pieHistoryLeftMargin;
+        params3.topMargin  = pieHistoryTopMargin;
+        mRootLayout.updateViewLayout(mPieChart, params3);
 
         //SQLite Bdd test
         //DailyMoodDAO testDB = new DailyMoodDAO(this);
@@ -129,6 +139,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent historyActivityIntent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(historyActivityIntent);
+            }
+        });
+
+        mPieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pieHistoryActivityIntent = new Intent(MainActivity.this, PieHistoryActivity.class);
+                startActivity(pieHistoryActivityIntent);
             }
         });
 
