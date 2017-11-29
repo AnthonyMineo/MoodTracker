@@ -31,8 +31,12 @@ public class AutoSaveService extends IntentService {
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         System.out.println("onStart");
 
+        String commentary = "";
         int mood = intent.getIntExtra("DailyMood", 3);
-        String commentary = intent.getStringExtra("DailyCommentary");
+        if(intent.getStringExtra("DailyCommentary") != null) {
+            commentary = intent.getStringExtra("DailyCommentary");
+        }
+
         System.out.println("mood : " + mood);
         System.out.println("com : " + commentary);
 

@@ -112,19 +112,19 @@ public class MainActivity extends AppCompatActivity {
         mRootLayout.updateViewLayout(mPieChart, params3);
 
         //SQLite Bdd test
-        //DailyMoodDAO testDB = new DailyMoodDAO(this);
-        //testDB.open();
+        /*DailyMoodDAO testDB = new DailyMoodDAO(this);
+        testDB.open();
 
 
-        /*testDB.addDailyMood(new DailyMood(0, ":(", "c'est à l'envers"));
-        testDB.addDailyMood(new DailyMood(0, ":|", "J'ai encore mal aux dents"));
+        testDB.addDailyMood(new DailyMood(0, ":D", "ca marche"));
+        testDB.addDailyMood(new DailyMood(0, ":|", "J'ai moins mal aux dents"));
         testDB.addDailyMood(new DailyMood(0, ":/", ""));
-        testDB.addDailyMood(new DailyMood(0, ":(", "J'ai pas encore vue l'épisode de RWBY !"));
-        testDB.addDailyMood(new DailyMood(0, ":)", "mais j'ai bien avancé"));
+        testDB.addDailyMood(new DailyMood(0, ":D", "J'ai bientôt fini mon projet !"));
+        testDB.addDailyMood(new DailyMood(0, ":(", "Je peux plus faire de sport pour le moment"));
         testDB.addDailyMood(new DailyMood(0, ":|", ""));
         testDB.addDailyMood(new DailyMood(0, ":D", "Enfin ca fonctionne !"));
 
-
+        /*
         testDB.supDailyMood(new DailyMood(0, "", ""));
         testDB.supDailyMood(new DailyMood(1, "", ""));
         testDB.supDailyMood(new DailyMood(2, "", ""));

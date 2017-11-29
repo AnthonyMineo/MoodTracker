@@ -48,6 +48,7 @@ public class PieHistoryActivity extends AppCompatActivity {
         mPieChart.setUsePercentValues(true);
         mPieChart.setEntryLabelTextSize(15);
         mPieChart.setNoDataText("No data yet");
+        mPieChart.setNoDataTextColor(Color.parseColor("#000000"));
 
         Description description = new Description();
         description.setText("Global Mood");
@@ -121,8 +122,8 @@ public class PieHistoryActivity extends AppCompatActivity {
             pieDataSet.setColors(colors);
 
         PieData data = new PieData(pieDataSet);
-        mPieChart.setData(data);
-
+        if(!entries.isEmpty())
+            mPieChart.setData(data);
         mPieChart.invalidate(); // refresh
     }
 }
