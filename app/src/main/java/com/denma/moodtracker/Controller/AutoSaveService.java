@@ -60,6 +60,8 @@ public class AutoSaveService extends IntentService {
         //Send notif to user
         sendNotification();
 
+        this.stopSelf();
+
         return START_STICKY;
     }
 
