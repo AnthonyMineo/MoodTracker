@@ -51,6 +51,7 @@ public class AutoSaveService extends IntentService {
         }else if(mood == 0){
             testDB.addDailyMood(new DailyMood(0, ":(", commentary));
         }
+
         testDB.close();
 
         //Remove Prefs for new commentary

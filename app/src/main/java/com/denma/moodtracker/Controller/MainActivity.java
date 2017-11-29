@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.denma.moodtracker.R;
+
+import java.io.IOException;
 import java.util.Calendar;
 
 
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
     private SharedPreferences mPreferences;
+
+    private MediaPlayer media;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                int i = myPager.getCurrentItem();
+                setSound(i);
                 scheduleAlarm();
             }
 
@@ -192,7 +200,76 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         //init Alarm at midnight
         alarm.set(AlarmManager.RTC_WAKEUP, alarmUp, pIntent);
+    }
 
+    private void setSound(int smiley){
 
+        switch (smiley){
+            case 4:
+                try {
+                    stopPlayingMedia();
+                    AssetFileDescriptor afd = getAssets().openFd("Super_Happy_Sound.mp3");
+                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    media.prepare();
+                    media.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                try {
+                    stopPlayingMedia();
+                    AssetFileDescriptor afd = getAssets().openFd("Happy_Sound.mp3");
+                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    media.prepare();
+                    media.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                try {
+                    stopPlayingMedia();
+                    AssetFileDescriptor afd = getAssets().openFd("Normal_Sound.mp3");
+                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    media.prepare();
+                    media.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                try {
+                    stopPlayingMedia();
+                    AssetFileDescriptor afd = getAssets().openFd("Disappointed_Sound.mp3");
+                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    media.prepare();
+                    media.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 0:
+                try {
+                    stopPlayingMedia();
+                    AssetFileDescriptor afd = getAssets().openFd("Sad_Sound.mp3");
+                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    media.prepare();
+                    media.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    private void stopPlayingMedia(){
+        if (media != null) {
+            media.stop();
+            media.release();
+            media = new MediaPlayer();
+        } else {
+            media = new MediaPlayer();
+        }
     }
 }
