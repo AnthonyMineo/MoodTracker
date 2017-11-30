@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mHistoryBlack;
     private ImageView mNoteAddBlack;
     private ImageView mPieChart;
+    private ImageView mShare;
 
     private FrameLayout mRootLayout;
     private MyViewPager myPager;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
         mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
         mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
-        mPieChart = (ImageView) findViewById(R.id.activity_history_pie_chart);
+        mPieChart = (ImageView) findViewById(R.id.activity_main_pie_chart);
+        mShare = (ImageView) findViewById(R.id.activity_main_share);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         int pieHistoryTopMargin = (int) (screenHeight * 0.10);
         int noteLeftMargin = (int) (screenWidth * 0.10);
         int noteTopMargin = (int) (screenHeight * 0.80);
+        int shareLeftMargin = (int) (screenWidth * 0.10);
+        int shareTopMargin = (int) (screenHeight * 0.10);
 
         //set history's icone placement absolute
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
@@ -110,6 +114,12 @@ public class MainActivity extends AppCompatActivity {
         params3.leftMargin = pieHistoryLeftMargin;
         params3.topMargin  = pieHistoryTopMargin;
         mRootLayout.updateViewLayout(mPieChart, params3);
+
+        FrameLayout.LayoutParams params4 = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
+        params4.leftMargin = shareLeftMargin;
+        params4.topMargin  = shareTopMargin;
+        mRootLayout.updateViewLayout(mShare, params4);
+
 
         //SQLite Bdd test
         /*DailyMoodDAO testDB = new DailyMoodDAO(this);
@@ -147,6 +157,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent pieHistoryActivityIntent = new Intent(MainActivity.this, PieHistoryActivity.class);
                 startActivity(pieHistoryActivityIntent);
+            }
+        });
+
+        mShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentMood = "Today's mood " + convertIntMoodToStringMood(myPager.getCurrentItem()) + " because : " + mPreferences.getString(PREF_COMMENTARY, "");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, currentMood);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "How do you want to send your mood ?"));
             }
         });
 
@@ -188,6 +210,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String convertIntMoodToStringMood(int mood){
+        String currentMood = "";
+        if(mood == 4){
+            currentMood = ":D";
+        }else if(mood == 3){
+            currentMood = ":)";
+        }else if(mood == 2){
+            currentMood = ":|";
+        }else if(mood == 1){
+            currentMood = ":/";
+        }else if(mood == 0){
+            currentMood = ":(";
+        }
+        return currentMood;
     }
 
     private void scheduleAlarm(){
