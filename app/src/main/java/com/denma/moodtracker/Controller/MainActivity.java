@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         //define icone placement relative to the screen
         int historyLeftMargin = (int) (screenWidth * 0.80);
         int historyTopMargin = (int) (screenHeight * 0.80);
-        int pieHistoryLeftMargin = (int) (screenWidth * 0.45);
-        int pieHistoryTopMargin = (int) (screenHeight * 0.80);
+        int pieHistoryLeftMargin = (int) (screenWidth * 0.80);
+        int pieHistoryTopMargin = (int) (screenHeight * 0.10);
         int noteLeftMargin = (int) (screenWidth * 0.10);
         int noteTopMargin = (int) (screenHeight * 0.80);
 

@@ -27,11 +27,12 @@ import static com.denma.moodtracker.Model.DailyMoodDAO.KEY_MOOD_STAT;
 public class PieHistoryActivity extends AppCompatActivity {
 
     private PieChart mPieChart;
-    private int superHappyNumber = 0;
-    private int happyNumber = 0;
-    private int normalNumber = 0;
-    private int disappointedNumber = 0;
-    private int sadNumber = 0;
+    private int mSuperHappyNumber = 0;
+    private int mHappyNumber = 0;
+    private int mNormalNumber = 0;
+    private int mDisappointedNumber = 0;
+    private int mSadNumber = 0;
+    private int mTotalDay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +46,10 @@ public class PieHistoryActivity extends AppCompatActivity {
         mPieChart.setHoleRadius(20);
         mPieChart.setTransparentCircleRadius(25);
         mPieChart.setEntryLabelColor(Color.parseColor("#000000"));
-        mPieChart.setUsePercentValues(true);
+        //mPieChart.setUsePercentValues(true);
         mPieChart.setEntryLabelTextSize(15);
         mPieChart.setNoDataText("No data yet");
         mPieChart.setNoDataTextColor(Color.parseColor("#000000"));
-
-        Description description = new Description();
-        description.setText("Global Mood");
-        description.setTextSize(20);
-
-        mPieChart.setDescription(description);
 
         //Create array for colors add data that the pie will use
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -71,19 +66,19 @@ public class PieHistoryActivity extends AppCompatActivity {
                 String moodState = cursor.getString(cursor.getColumnIndex(KEY_MOOD_STAT));
                 switch(moodState) {
                     case ":D":
-                        superHappyNumber++;
+                        mSuperHappyNumber++;
                         break;
                     case ":)":
-                        happyNumber++;
+                        mHappyNumber++;
                         break;
                     case ":|":
-                        normalNumber++;
+                        mNormalNumber++;
                         break;
                     case ":/":
-                        disappointedNumber++;
+                        mDisappointedNumber++;
                         break;
                     case ":(":
-                        sadNumber++;
+                        mSadNumber++;
                         break;
                 }
             }while (cursor.moveToNext());
@@ -91,32 +86,32 @@ public class PieHistoryActivity extends AppCompatActivity {
         cursor.close();
         dM.close();
 
-        if(superHappyNumber != 0){
-            entries.add(new PieEntry(superHappyNumber, "Super Happy"));
+        if(mSuperHappyNumber != 0){
+            entries.add(new PieEntry(mSuperHappyNumber, "Super Happy"));
             colors.add(getResources().getColor(R.color.banana_yellow));
 
         }
-        if(happyNumber != 0){
-            entries.add(new PieEntry(happyNumber, "Happy"));
+        if(mHappyNumber != 0){
+            entries.add(new PieEntry(mHappyNumber, "Happy"));
             colors.add(getResources().getColor(R.color.light_sage));
         }
-        if(normalNumber != 0){
-            entries.add(new PieEntry(normalNumber, "Normal"));
+        if(mNormalNumber != 0){
+            entries.add(new PieEntry(mNormalNumber, "Normal"));
             colors.add(getResources().getColor(R.color.cornflower_blue_65));
         }
-        if(disappointedNumber != 0){
-            entries.add(new PieEntry(disappointedNumber, "Disappointed"));
+        if(mDisappointedNumber != 0){
+            entries.add(new PieEntry(mDisappointedNumber, "Disappointed"));
             colors.add(getResources().getColor(R.color.warm_grey));
         }
-        if(sadNumber != 0){
-            entries.add(new PieEntry(sadNumber, "Sad"));
+        if(mSadNumber != 0){
+            entries.add(new PieEntry(mSadNumber, "Sad"));
             colors.add(getResources().getColor(R.color.faded_red));
         }
 
         PieDataSet pieDataSet = new PieDataSet(entries, "");
         pieDataSet.setSliceSpace(3);
         pieDataSet.setValueTextSize(15);
-        pieDataSet.setValueFormatter(new PercentFormatter());
+        //pieDataSet.setValueFormatter(new PercentFormatter());
 
         if(!colors.isEmpty())
             pieDataSet.setColors(colors);
@@ -124,6 +119,19 @@ public class PieHistoryActivity extends AppCompatActivity {
         PieData data = new PieData(pieDataSet);
         if(!entries.isEmpty())
             mPieChart.setData(data);
+
+        mTotalDay = mSuperHappyNumber + mHappyNumber + mNormalNumber + mDisappointedNumber + mSadNumber;
+        Description description = new Description();
+        if(mTotalDay <= 1){
+            description.setText("Total since : " + mTotalDay + " day");
+        } else {
+            description.setText("Total since : " + mTotalDay + " days");
+        }
+
+        description.setTextSize(20);
+
+        mPieChart.setDescription(description);
+
         mPieChart.invalidate(); // refresh
     }
 }
