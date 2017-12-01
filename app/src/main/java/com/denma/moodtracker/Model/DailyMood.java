@@ -1,7 +1,6 @@
 package com.denma.moodtracker.Model;
 
-//Daily Mood object
-
+// Daily Mood object
 public class DailyMood {
     private int id_dailyMood;
     private String dailyMoodStat;

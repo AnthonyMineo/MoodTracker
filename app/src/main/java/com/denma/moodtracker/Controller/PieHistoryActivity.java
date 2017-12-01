@@ -4,10 +4,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
-import android.widget.Switch;
 
-import com.denma.moodtracker.Model.DailyMood;
 import com.denma.moodtracker.Model.DailyMoodDAO;
 import com.denma.moodtracker.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -15,13 +12,10 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.denma.moodtracker.Model.DailyMoodDAO.KEY_ID_MOOD;
-import static com.denma.moodtracker.Model.DailyMoodDAO.KEY_MOOD_COMMENTARY;
 import static com.denma.moodtracker.Model.DailyMoodDAO.KEY_MOOD_STAT;
 
 public class PieHistoryActivity extends AppCompatActivity {
@@ -39,9 +33,10 @@ public class PieHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_history);
 
+        // Reference view's item
         mPieChart = (PieChart) findViewById(R.id.activity_piehistory_chart);
 
-        //Set chart style
+        // Set chart style
         mPieChart.setDrawHoleEnabled(true);
         mPieChart.setHoleRadius(20);
         mPieChart.setTransparentCircleRadius(25);
@@ -51,15 +46,15 @@ public class PieHistoryActivity extends AppCompatActivity {
         mPieChart.setNoDataText("No data yet");
         mPieChart.setNoDataTextColor(Color.parseColor("#000000"));
 
-        //Create array for colors add data that the pie will use
+        // Create array for colors + add data for pie display
         ArrayList<Integer> colors = new ArrayList<Integer>();
         List<PieEntry> entries = new ArrayList<>();
 
-        //Open database + connect with DAO
+        // Open database + connect with DAO
         DailyMoodDAO dM = new DailyMoodDAO(this);
         dM.open();
 
-        //get all last mood and increment mood state number from what the database gave to us
+        // Get all last mood and increment mood state number from what the database gave to us
         Cursor cursor = dM.getAllDailyMood();
         if (cursor.moveToFirst()) {
             do {
@@ -83,9 +78,12 @@ public class PieHistoryActivity extends AppCompatActivity {
                 }
             }while (cursor.moveToNext());
         }
+
+        //Hold the door !... nop bitch, close the door !
         cursor.close();
         dM.close();
 
+        // Dynamically set Entries and colors
         if(mSuperHappyNumber != 0){
             entries.add(new PieEntry(mSuperHappyNumber, "Super Happy"));
             colors.add(getResources().getColor(R.color.banana_yellow));
@@ -108,18 +106,24 @@ public class PieHistoryActivity extends AppCompatActivity {
             colors.add(getResources().getColor(R.color.faded_red));
         }
 
+        // Create a dataSet to separate our data categories
         PieDataSet pieDataSet = new PieDataSet(entries, "");
         pieDataSet.setSliceSpace(3);
         pieDataSet.setValueTextSize(15);
         //pieDataSet.setValueFormatter(new PercentFormatter());
 
+        // Control if color is empty
         if(!colors.isEmpty())
             pieDataSet.setColors(colors);
 
+        // Create Data from our categories
         PieData data = new PieData(pieDataSet);
+
+        // Control if entries are empty -> allow us to display or not the "noDataText"
         if(!entries.isEmpty())
             mPieChart.setData(data);
 
+        // Add description using the total day since user use our app
         mTotalDay = mSuperHappyNumber + mHappyNumber + mNormalNumber + mDisappointedNumber + mSadNumber;
         Description description = new Description();
         if(mTotalDay <= 1){
@@ -127,11 +131,10 @@ public class PieHistoryActivity extends AppCompatActivity {
         } else {
             description.setText("Total since : " + mTotalDay + " days");
         }
-
         description.setTextSize(20);
 
+        // Set the description + refresh the pieChart
         mPieChart.setDescription(description);
-
-        mPieChart.invalidate(); // refresh
+        mPieChart.invalidate();
     }
 }

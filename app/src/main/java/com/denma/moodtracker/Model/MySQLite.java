@@ -14,6 +14,7 @@ public class MySQLite extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Our Singleton :)
     public static synchronized MySQLite getInstance(Context context){
         if(sInstance == null)
             sInstance = new MySQLite(context);

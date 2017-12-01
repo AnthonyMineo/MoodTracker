@@ -28,8 +28,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView mHistoryBlack;
-    private ImageView mNoteAddBlack;
+    private ImageView mHistory7Days;
+    private ImageView mNoteAdd;
     private ImageView mPieChart;
     private ImageView mShare;
 
@@ -39,56 +39,59 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_COMMENTARY = "PREF_COMMENTARY";
     private SharedPreferences mPreferences;
 
-    private MediaPlayer media;
+    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Init PagerAdapter with a ViewPager
         MyPagerAdapter adapter = new MyPagerAdapter();
         myPager = (MyViewPager) findViewById(R.id.activity_main_panel_pager);
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(3);
 
+        // Reference view's items
         mRootLayout = (FrameLayout) findViewById(R.id.acitvity_main_root_layout);
-        mHistoryBlack = (ImageView) findViewById(R.id.activity_main_history_black);
-        mNoteAddBlack = (ImageView) findViewById(R.id.activity_main_note_add_black);
+        mHistory7Days = (ImageView) findViewById(R.id.activity_main_history);
+        mNoteAdd = (ImageView) findViewById(R.id.activity_main_note_add);
         mPieChart = (ImageView) findViewById(R.id.activity_main_pie_chart);
         mShare = (ImageView) findViewById(R.id.activity_main_share);
 
+        // Init SharedPreferences using Default wich make it easily recoverable throught activity/service
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
+        // Define action on ViewPager when user change the current Page
         myPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
+                // Init + set the sound to play when user switch between Page
                 int i = myPager.getCurrentItem();
                 setSound(i);
+
+                // Call the Alarm scheduler because the current mood was changed by user -> update the Intent send to the service
                 scheduleAlarm();
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
-        //define screen dimension (width and height)
+        // Define screen dimension (width and height)
         Display display = getWindowManager().getDefaultDisplay();
         int screenWidth = display.getWidth();
         int screenHeight = display.getHeight();
 
-        //define icone dimension relative to the screen
+        // Define icone dimension relative to the screen
         int iconeWidth = (int) (screenWidth * 0.10);
         int iconeHeight = (int) (screenHeight * 0.10);
 
-        //define icone placement relative to the screen
+        // Define icone placement relative to the screen
         int historyLeftMargin = (int) (screenWidth * 0.80);
         int historyTopMargin = (int) (screenHeight * 0.80);
         int pieHistoryLeftMargin = (int) (screenWidth * 0.80);
@@ -98,53 +101,32 @@ public class MainActivity extends AppCompatActivity {
         int shareLeftMargin = (int) (screenWidth * 0.10);
         int shareTopMargin = (int) (screenHeight * 0.10);
 
-        //set history's icone placement absolute
+        // Set history's icone placement absolute
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
         params.leftMargin = historyLeftMargin;
         params.topMargin  = historyTopMargin;
-        mRootLayout.updateViewLayout(mHistoryBlack, params);
+        mRootLayout.updateViewLayout(mHistory7Days, params);
 
-        //set note's icone placement absolute
+        // Set note's icone placement absolute
         FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
         params2.leftMargin = noteLeftMargin;
         params2.topMargin  = noteTopMargin;
-        mRootLayout.updateViewLayout(mNoteAddBlack, params2);
+        mRootLayout.updateViewLayout(mNoteAdd, params2);
 
+        // Set pieHistory's icone placement absolute
         FrameLayout.LayoutParams params3 = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
         params3.leftMargin = pieHistoryLeftMargin;
         params3.topMargin  = pieHistoryTopMargin;
         mRootLayout.updateViewLayout(mPieChart, params3);
 
+        // Set share's icone placement absolute
         FrameLayout.LayoutParams params4 = new FrameLayout.LayoutParams(iconeWidth, iconeHeight);
         params4.leftMargin = shareLeftMargin;
         params4.topMargin  = shareTopMargin;
         mRootLayout.updateViewLayout(mShare, params4);
 
-
-        //SQLite Bdd test
-        /*DailyMoodDAO testDB = new DailyMoodDAO(this);
-        testDB.open();
-
-
-        testDB.addDailyMood(new DailyMood(0, ":D", "ca marche"));
-        testDB.addDailyMood(new DailyMood(0, ":|", "J'ai moins mal aux dents"));
-        testDB.addDailyMood(new DailyMood(0, ":/", ""));
-        testDB.addDailyMood(new DailyMood(0, ":D", "J'ai bientôt fini mon projet !"));
-        testDB.addDailyMood(new DailyMood(0, ":(", "Je peux plus faire de sport pour le moment"));
-        testDB.addDailyMood(new DailyMood(0, ":|", ""));
-        testDB.addDailyMood(new DailyMood(0, ":D", "Enfin ca fonctionne !"));
-
-        /*
-        testDB.supDailyMood(new DailyMood(0, "", ""));
-        testDB.supDailyMood(new DailyMood(1, "", ""));
-        testDB.supDailyMood(new DailyMood(2, "", ""));
-        testDB.supDailyMood(new DailyMood(3, "", ""));
-        testDB.supDailyMood(new DailyMood(4, "", ""));
-        testDB.supDailyMood(new DailyMood(5, "", ""));
-        testDB.supDailyMood(new DailyMood(6, "", ""));
-        testDB.supDailyMood(new DailyMood(7, "", ""));*/
-
-        mHistoryBlack.setOnClickListener(new View.OnClickListener() {
+        // History onClickListener that will start HistoryActivity
+        mHistory7Days.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent historyActivityIntent = new Intent(MainActivity.this, HistoryActivity.class);
@@ -152,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // PieChart onClickListener that will start PieHistoryActivity
         mPieChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,44 +143,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Share onClickListener that will start an activity with "ACTION_SEND" Intent -> allow user to share is current mood throught different way to who he wants
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // String currentMood = the mood state + commentary in a string format, allow us to send it to multiple others apps
                 String currentMood = "Today's mood " + convertIntMoodToStringMood(myPager.getCurrentItem()) + " because : " + mPreferences.getString(PREF_COMMENTARY, "");
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, currentMood);
+
+                // setType allow us to informed others apps the type of our send intent and then, with createChooser to display apps that can use this type of intent
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "How do you want to send your mood ?"));
             }
         });
 
-        mNoteAddBlack.setOnClickListener(new View.OnClickListener() {
+        // Note onClickListener that will display an AlertDialog asking for the user's daily commentary
+        mNoteAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                 alertDialog.setMessage("Commentaire");
 
+                // Create + Adding EditText to the AlertDialog's layout
                 final EditText comInput = new EditText(MainActivity.this);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 comInput.setLayoutParams(layoutParams);
                 alertDialog.setView(comInput);
 
-                //If a daily commentary is already set, add it to the EditText
+                // If a daily commentary is already set, add it to the EditText
                 if(mPreferences.contains(PREF_COMMENTARY))
                     comInput.setText(mPreferences.getString(PREF_COMMENTARY, ""));
 
+                // Set Positive button
                 alertDialog.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //Add the commentary to shared prefs
+                        // Add the commentary to shared prefs
                         mPreferences.edit().putString(PREF_COMMENTARY, comInput.getText().toString()).apply();
+
+                        // Call the Alarm scheduler because the current commentary was changed by user -> update the Intent send to the service
                         scheduleAlarm();
-                        System.out.println(comInput.getText().toString());
                     }
 
                 });
 
+                // Set Negative button
                 alertDialog.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -206,33 +198,41 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
+                // Create + show the AlertDialog
                 alertDialog.create().show();
 
             }
         });
     }
 
+    // Convert mood get from ViewPager (as an int) to a mood that we can use in DataBase (as a String)
     private String convertIntMoodToStringMood(int mood){
         String currentMood = "";
-        if(mood == 4){
-            currentMood = ":D";
-        }else if(mood == 3){
-            currentMood = ":)";
-        }else if(mood == 2){
-            currentMood = ":|";
-        }else if(mood == 1){
-            currentMood = ":/";
-        }else if(mood == 0){
-            currentMood = ":(";
+
+        switch (mood){
+            case 4:
+                currentMood = ":D";
+                break;
+            case 3:
+                currentMood = ":)";
+                break;
+            case 2:
+                currentMood = ":|";
+                break;
+            case 1:
+                currentMood = ":/";
+                break;
+            case 0:
+                currentMood = ":(";
+                break;
         }
+
         return currentMood;
     }
 
+    // Shedule when the alarm will be firing and then execute the AutoSaveService
     private void scheduleAlarm(){
-
-        System.out.println("scheduleAlarm");
-
-        // Construct an intent that will execute MyAlarmReceiver
+        // Construct an intent that will send to MyAlarmReceiver
         Intent myIntent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
         myIntent.putExtra("DailyMood", myPager.getCurrentItem());
         myIntent.putExtra("DailyCommentary", mPreferences.getString(PREF_COMMENTARY, ""));
@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(MainActivity.this, MyAlarmReceiver.REQUEST_CODE, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Define when the alarm will be firing
         long alarmUp = 0;
         Calendar midnight = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
@@ -247,17 +248,20 @@ public class MainActivity extends AppCompatActivity {
         midnight.set(Calendar.MINUTE, 59);
         midnight.set(Calendar.SECOND, 59);
 
+        // Allow us to know if alarm time is past or not -> don't start it if it's past
         if(midnight.getTimeInMillis() <= now.getTimeInMillis())
             alarmUp = midnight.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
         else
             alarmUp = midnight.getTimeInMillis();
 
-        //Create AlarmManager Object
+        // Create AlarmManager Object
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        //init Alarm at midnight
+
+        // Set Alarm at midnight
         alarm.set(AlarmManager.RTC_WAKEUP, alarmUp, pIntent);
     }
 
+    // Method that init parameters of the MediaPlayer and play it
     private void setSound(int smiley){
 
         switch (smiley){
@@ -265,9 +269,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     stopPlayingMedia();
                     AssetFileDescriptor afd = getAssets().openFd("Super_Happy_Sound.mp3");
-                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    media.prepare();
-                    media.start();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -276,9 +280,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     stopPlayingMedia();
                     AssetFileDescriptor afd = getAssets().openFd("Happy_Sound.mp3");
-                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    media.prepare();
-                    media.start();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -287,9 +291,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     stopPlayingMedia();
                     AssetFileDescriptor afd = getAssets().openFd("Normal_Sound.mp3");
-                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    media.prepare();
-                    media.start();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -298,9 +302,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     stopPlayingMedia();
                     AssetFileDescriptor afd = getAssets().openFd("Disappointed_Sound.mp3");
-                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    media.prepare();
-                    media.start();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -309,9 +313,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     stopPlayingMedia();
                     AssetFileDescriptor afd = getAssets().openFd("Sad_Sound.mp3");
-                    media.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    media.prepare();
-                    media.start();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -319,13 +323,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Method that "stop" MediaPlayer and create a new instance of it -> allow us to avoid bug when user play a new sound before the last one finished.
     private void stopPlayingMedia(){
-        if (media != null) {
-            media.stop();
-            media.release();
-            media = new MediaPlayer();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = new MediaPlayer();
         } else {
-            media = new MediaPlayer();
+            mMediaPlayer = new MediaPlayer();
         }
     }
 }

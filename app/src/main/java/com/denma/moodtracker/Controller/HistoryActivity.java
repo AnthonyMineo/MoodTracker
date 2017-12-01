@@ -1,6 +1,5 @@
 package com.denma.moodtracker.Controller;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,7 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        //Reference
+        // Reference view's items
         mDay7Layout = (RelativeLayout) findViewById(R.id.activity_history_day_7_layout);
         mDay7Mood = (TextView) findViewById(R.id.activity_history_day_7_mood);
         mDay7Commentary = (ImageView) findViewById(R.id.activity_history_day_7_commentary);
@@ -91,12 +90,12 @@ public class HistoryActivity extends AppCompatActivity {
         mDay1Mood = (TextView) findViewById(R.id.activity_history_day_1_mood);
         mDay1Commentary = (ImageView) findViewById(R.id.activity_history_day_1_commentary);
 
-        //init table
+        // Init table that allow us to dynamically set our view's item
         mMoodTable = new TextView[]{mDay1Mood, mDay2Mood, mDay3Mood, mDay4Mood, mDay5Mood, mDay6Mood, mDay7Mood};
         mCommentaryTable = new ImageView[]{mDay1Commentary, mDay2Commentary, mDay3Commentary, mDay4Commentary, mDay5Commentary, mDay6Commentary, mDay7Commentary};
         mLayoutTable = new RelativeLayout[]{mDay1Layout, mDay2Layout, mDay3Layout, mDay4Layout, mDay5Layout, mDay6Layout, mDay7Layout};
 
-        //Set Commentary Invisble
+        // Set Commentary Invisble
         mDay1Commentary.setVisibility(View.INVISIBLE);
         mDay2Commentary.setVisibility(View.INVISIBLE);
         mDay3Commentary.setVisibility(View.INVISIBLE);
@@ -105,7 +104,7 @@ public class HistoryActivity extends AppCompatActivity {
         mDay6Commentary.setVisibility(View.INVISIBLE);
         mDay7Commentary.setVisibility(View.INVISIBLE);
 
-        //set Listener on commentary
+        // Set Listener on commentary
         mDay1Commentary.setOnClickListener(CommentaryListener);
         mDay2Commentary.setOnClickListener(CommentaryListener);
         mDay3Commentary.setOnClickListener(CommentaryListener);
@@ -114,33 +113,39 @@ public class HistoryActivity extends AppCompatActivity {
         mDay6Commentary.setOnClickListener(CommentaryListener);
         mDay7Commentary.setOnClickListener(CommentaryListener);
 
-        //Open database + connect with DAO
+        // Open database + connect with DAO
         DailyMoodDAO dM = new DailyMoodDAO(this);
         dM.open();
 
-        //get last 7 DailyMood (maximum, because you can get just 5 is there is no more in db)
+        // Get last 7 DailyMood (maximum, but you can get less depending on your data)
         Cursor cursor = dM.getLast7DailyMood();
         if (cursor.moveToFirst()) {
             do {
+                // Create and Init a temporary DailyMood Object
                 DailyMood tempDailyMood = new DailyMood(0, "", "");
                 tempDailyMood.setId_dailyMood(cursor.getInt(cursor.getColumnIndex(KEY_ID_MOOD)));
                 tempDailyMood.setDailyMood(cursor.getString(cursor.getColumnIndex(KEY_MOOD_STAT)));
                 tempDailyMood.setDailyCommentary(cursor.getString(cursor.getColumnIndex(KEY_MOOD_COMMENTARY)));
+
+                // Init our list with those Objects -> we can now use them easily
                 mWeekMoodList.add(tempDailyMood);
             }while (cursor.moveToNext());
         }
+
+        // Always close door that we open
         cursor.close();
         dM.close();
 
-        //modif Xml properties to suit your DailyMood data
+        // Modify Xml properties to suit our DailyMood Objects
         setXmlFromData(mWeekMoodList);
     }
 
-    //Toast the commentary depending on wich ImageView you clicked
+    // Toast the commentary depending on wich ImageView user clicked
     private View.OnClickListener CommentaryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String message = "";
+
             switch (v.getId()) {
                 case R.id.activity_history_day_1_commentary:
                     message = mWeekMoodList.get(0).getDailyCommentary();
@@ -174,17 +179,20 @@ public class HistoryActivity extends AppCompatActivity {
         }
     };
 
-    //dynamically set the mood text and set the commentary visible if it exist
+    // Dynamically set the mood text and set the commentary visible if it exist
     private void setXmlFromData(List<DailyMood> WeekMoodList){
+
         for(int i = 0; i < WeekMoodList.size(); i ++){
             mMoodTable[i].setText(WeekMoodList.get(i).getDailyMood());
             if(!(WeekMoodList.get(i).getDailyCommentary().equals("")))
                 mCommentaryTable[i].setVisibility(View.VISIBLE);
+
+            // Call our method to set RelativeLayout depending on his mood correspondance
             setWidthForMoodLayout(WeekMoodList.get(i), mLayoutTable[i]);
         }
     }
 
-    //dynamically set the RelativeLayout width and color
+    // Dynamically set the RelativeLayout width and color depending on mood
     private void setWidthForMoodLayout(DailyMood currentMood, RelativeLayout currentLayout){
         Display display = getWindowManager().getDefaultDisplay();
         int screenWidth = display.getWidth();
@@ -193,22 +201,29 @@ public class HistoryActivity extends AppCompatActivity {
         int disappointedSize = (int) (screenWidth * 0.55);
         int sadSize = (int) (screenWidth * 0.30);
 
-        if(currentMood.getDailyMood().equals(":D"))
-        {
-            currentLayout.getLayoutParams().width = screenWidth;
-            currentLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
-        } else if (currentMood.getDailyMood().equals(":)")){
-            currentLayout.getLayoutParams().width = happySize;
-            currentLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
-        } else if (currentMood.getDailyMood().equals( ":|")){
-            currentLayout.getLayoutParams().width = normalSize;
-            currentLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
-        } else if (currentMood.getDailyMood().equals(":/")){
-            currentLayout.getLayoutParams().width = disappointedSize;
-            currentLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
-        } else if (currentMood.getDailyMood().equals(":(")){
-            currentLayout.getLayoutParams().width = sadSize;
-            currentLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
+        String userMood = currentMood.getDailyMood();
+
+        switch (userMood){
+            case ":D":
+                currentLayout.getLayoutParams().width = screenWidth;
+                currentLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
+                break;
+            case ":)":
+                currentLayout.getLayoutParams().width = happySize;
+                currentLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
+                break;
+            case ":|":
+                currentLayout.getLayoutParams().width = normalSize;
+                currentLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
+                break;
+            case ":/":
+                currentLayout.getLayoutParams().width = disappointedSize;
+                currentLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
+                break;
+            case ":(":
+                currentLayout.getLayoutParams().width = sadSize;
+                currentLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
+                break;
         }
     }
 }

@@ -29,55 +29,62 @@ public class AutoSaveService extends IntentService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        System.out.println("onStart");
-
+        // Get intent extras
         String commentary = "";
         int mood = intent.getIntExtra("DailyMood", 3);
         if(intent.getStringExtra("DailyCommentary") != null) {
             commentary = intent.getStringExtra("DailyCommentary");
         }
 
-        System.out.println("mood : " + mood);
-        System.out.println("com : " + commentary);
-
-        //SQLite Bdd test
+        // Open database + connect with DAO
         DailyMoodDAO dM = new DailyMoodDAO(this);
         dM.open();
 
-        if(mood == 4){
-            dM.addDailyMood(new DailyMood(0, ":D", commentary));
-        }else if(mood == 3){
-            dM.addDailyMood(new DailyMood(0, ":)", commentary));
-        }else if(mood == 2){
-            dM.addDailyMood(new DailyMood(0, ":|", commentary));
-        }else if(mood == 1){
-            dM.addDailyMood(new DailyMood(0, ":/", commentary));
-        }else if(mood == 0){
-            dM.addDailyMood(new DailyMood(0, ":(", commentary));
+        // Adding DailyMood to Database
+        switch (mood) {
+            case 4:
+                dM.addDailyMood(new DailyMood(0, ":D", commentary));
+                break;
+            case 3:
+                dM.addDailyMood(new DailyMood(0, ":)", commentary));
+                break;
+            case 2:
+                dM.addDailyMood(new DailyMood(0, ":|", commentary));
+                break;
+            case 1:
+                dM.addDailyMood(new DailyMood(0, ":/", commentary));
+                break;
+            case 0:
+                dM.addDailyMood(new DailyMood(0, ":(", commentary));
+                break;
         }
 
+        // Close the door !
         dM.close();
 
-        //Remove Prefs for new commentary
+        // Remove Prefs for new commentary
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.edit().clear().apply();
 
-        //Send notif to user
+        // Send notif to user
         sendNotification();
 
+        // Stop the service -> don't save daily mood if user don't launch at least one time the app during the day
         this.stopSelf();
 
         return START_STICKY;
     }
 
+    // Used if App was killed
     public void onTaskRemoved(Intent rootIntent){
-        System.out.print("taskRemoved");
-
+        // Go to the onStartCommand !
         Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
         restartServiceTask.setPackage(getPackageName());
+
+        // Create a PendingIntent to be triggered when the alarm goes off
         PendingIntent restartPendingIntent = PendingIntent.getService(getApplicationContext(), MyAlarmReceiver.REQUEST_CODE, restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
 
-        //AlarmTest
+        // Define when the alarm will be firing
         long alarmUp = 0;
         Calendar midnight = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
@@ -85,18 +92,22 @@ public class AutoSaveService extends IntentService {
         midnight.set(Calendar.MINUTE, 59);
         midnight.set(Calendar.SECOND, 59);
 
+        // Allow us to know if alarm time is past or not -> don't start it if it's past
         if(midnight.getTimeInMillis() <= now.getTimeInMillis())
             alarmUp = midnight.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
         else
             alarmUp = midnight.getTimeInMillis();
 
+        // Create AlarmManager Object
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        //init Alarm at midnight
+
+        // Set Alarm at midnight
         alarm.set(AlarmManager.RTC_WAKEUP, alarmUp, restartPendingIntent);
 
         super.onTaskRemoved(rootIntent);
     }
 
+    // Send simple notification withouy any action on click, just informative
     private void sendNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -109,7 +120,5 @@ public class AutoSaveService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
-    }
+    protected void onHandleIntent(@Nullable Intent intent) {}
 }
