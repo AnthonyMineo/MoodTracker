@@ -87,7 +87,6 @@ public class PieHistoryActivity extends AppCompatActivity {
         if(mSuperHappyNumber != 0){
             entries.add(new PieEntry(mSuperHappyNumber, "Super Happy"));
             colors.add(getResources().getColor(R.color.banana_yellow));
-
         }
         if(mHappyNumber != 0){
             entries.add(new PieEntry(mHappyNumber, "Happy"));

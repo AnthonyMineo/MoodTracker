@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class DailyMoodDAO {
 
     //Init our Table
-    public static final String TABLE_NAME = "DailyMood";
+    private static final String TABLE_NAME = "DailyMood";
     public static final String KEY_ID_MOOD = "id_dailyMood";
     public static final String KEY_MOOD_STAT = "dailyMoodStat";
     public static final String KEY_MOOD_COMMENTARY = "dailyCommentary";
@@ -22,6 +22,14 @@ public class DailyMoodDAO {
 
     public DailyMoodDAO(Context context){
         mySQLiteBase = MySQLite.getInstance(context);
+    }
+
+    public MySQLite getMySQLiteBase() {
+        return mySQLiteBase;
+    }
+
+    public void setMySQLiteBase(MySQLite mySQLiteBase) {
+        this.mySQLiteBase = mySQLiteBase;
     }
 
     public void open(){

@@ -25,7 +25,6 @@ import com.denma.moodtracker.R;
 import java.io.IOException;
 import java.util.Calendar;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mHistory7Days;
@@ -200,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Create + show the AlertDialog
                 alertDialog.create().show();
-
             }
         });
     }

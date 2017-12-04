@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.denma.moodtracker.Model.AutoSaveService;
+
 public class MyAlarmReceiver extends BroadcastReceiver {
 
     public static final int REQUEST_CODE = 50;

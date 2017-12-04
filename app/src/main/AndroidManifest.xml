@@ -19,7 +19,7 @@
         <activity android:name=".Controller.HistoryActivity" />
 
         <service
-            android:name=".Controller.AutoSaveService"
+            android:name=".Model.AutoSaveService"
             android:exported="false" />
 
         <receiver

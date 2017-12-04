@@ -1,4 +1,4 @@
-package com.denma.moodtracker.Controller;
+package com.denma.moodtracker.Model;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -11,8 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
-import com.denma.moodtracker.Model.DailyMood;
-import com.denma.moodtracker.Model.DailyMoodDAO;
+import com.denma.moodtracker.Controller.MyAlarmReceiver;
 import com.denma.moodtracker.R;
 
 import java.util.Calendar;
