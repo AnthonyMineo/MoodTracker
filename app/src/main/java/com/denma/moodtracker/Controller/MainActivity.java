@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Define action on ViewPager when user change the current Page
-        myPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        myPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}

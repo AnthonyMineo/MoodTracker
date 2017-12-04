@@ -108,14 +108,15 @@ public class AutoSaveService extends IntentService {
 
     // Send simple notification withouy any action on click, just informative
     private void sendNotification(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        String NOTIFICATION_ID = "channel_id_01";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Save Done !")
                 .setContentText("Your daily mood has been saved");
-        int NOTIFICATION_ID = 1;
+
 
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nManager.notify(NOTIFICATION_ID, builder.build());
+        nManager.notify(1, builder.build());
     }
 
     @Override
