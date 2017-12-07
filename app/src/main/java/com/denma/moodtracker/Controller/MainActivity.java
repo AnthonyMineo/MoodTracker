@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         // Init SharedPreferences using Default wich make it easily recoverable throught activity/service
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        scheduleAlarm();
+
         // Define action on ViewPager when user change the current Page
         myPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 

@@ -15,6 +15,16 @@ public class DailyMoodTest {
     }
 
     @Test
+    public void createDailyMood() throws Exception{
+        int expectedID = 3;
+        String expectedMOOD = ":)";
+        String expectedCOM = "this is a test";
+        assertEquals(expectedID, mDailyMood.getId_dailyMood());
+        assertEquals(expectedMOOD, mDailyMood.getDailyMood());
+        assertEquals(expectedCOM, mDailyMood.getDailyCommentary());
+    }
+
+    @Test
     public void getId_dailyMood() throws Exception {
         int actual = mDailyMood.getId_dailyMood();
         int expected = 3;
