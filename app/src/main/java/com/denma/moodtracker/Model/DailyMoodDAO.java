@@ -24,14 +24,6 @@ public class DailyMoodDAO {
         mySQLiteBase = MySQLite.getInstance(context);
     }
 
-    public MySQLite getMySQLiteBase() {
-        return mySQLiteBase;
-    }
-
-    public void setMySQLiteBase(MySQLite mySQLiteBase) {
-        this.mySQLiteBase = mySQLiteBase;
-    }
-
     public void open(){
         // Open database read/write mode
         db = mySQLiteBase.getWritableDatabase();
